@@ -4,7 +4,6 @@ use std::{
 };
 
 use bevy::{gltf::Gltf, pbr::CascadeShadowConfigBuilder, prelude::*};
-use rand::Rng;
 use smooth_bevy_cameras::{LookTransform, LookTransformBundle, LookTransformPlugin, Smoother};
 
 fn main() {
