@@ -1,0 +1,12 @@
+[package]
+name = "root-motion"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { git = "https://github.com/bevyengine/bevy/", features = ["jpeg"] }
+smooth-bevy-cameras = { git = "https://github.com/mockersf/smooth-bevy-cameras" }
+
+
+[patch.'https://github.com/bevyengine/bevy']
+bevy = { git = "https://github.com/mockersf/bevy/", branch = "root-translation" }
