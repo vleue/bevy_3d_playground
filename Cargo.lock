@@ -273,6 +273,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bevy_3d_playground"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "smooth-bevy-cameras",
+]
+
+[[package]]
 name = "bevy_a11y"
 version = "0.11.0-dev"
 source = "git+https://github.com/mockersf/bevy/?branch=root-translation#32a044c9c1cefa40adebc8cbb6605f1fb45710af"
@@ -2500,14 +2508,6 @@ dependencies = [
  "base64",
  "bitflags",
  "serde",
-]
-
-[[package]]
-name = "root-motion"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "smooth-bevy-cameras",
 ]
 
 [[package]]
