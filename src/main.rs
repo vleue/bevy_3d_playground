@@ -253,11 +253,8 @@ fn keyboard(
     mut player_transform: Query<&mut Transform, With<AnimationPlayer>>,
     animations: Option<Res<BruteAnimations>>,
     animation_clips: Res<Assets<AnimationClip>>,
-    time: Res<Time>,
-    mut timer: Local<Timer>,
-    mut rotation: Local<RootMotionRotation>,
-    mut something_pressed: Local<bool>,
-    mut current_direction: Local<Direction>,
+    (time, mut timer, mut rotation): (Res<Time>, Local<Timer>, Local<RootMotionRotation>),
+    (mut something_pressed, mut current_direction): (Local<bool>, Local<Direction>),
 ) {
     if keyboard.just_released(KeyCode::Up)
         || keyboard.just_released(KeyCode::Z)
@@ -448,6 +445,7 @@ fn keyboard(
             Duration::from_secs_f32(clip.duration() - transition_delay),
             TimerMode::Once,
         );
+        #[allow(clippy::needless_return)]
         return;
     }
 }
