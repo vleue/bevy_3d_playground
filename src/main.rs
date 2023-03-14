@@ -232,13 +232,13 @@ struct Character;
 
 #[derive(Copy, Clone)]
 enum Animations {
-    Idle = 6,
-    RunForward = 25,
-    RunBackward = 24,
-    TurnLeft = 28,
-    TurnRight = 29,
-    Attack = 10,
-    Jump = 9,
+    Idle = 1,
+    RunForward = 4,
+    RunBackward = 3,
+    TurnLeft = 5,
+    TurnRight = 6,
+    Attack = 2,
+    Jump = 0,
 }
 
 #[derive(Default)]
