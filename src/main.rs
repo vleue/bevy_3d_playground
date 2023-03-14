@@ -8,7 +8,14 @@ use smooth_bevy_cameras::{LookTransform, LookTransformBundle, LookTransformPlugi
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                title: "3D Playground".to_string(),
+                fit_canvas_to_parent: true,
+                ..default()
+            }),
+            ..default()
+        }))
         .add_plugin(LookTransformPlugin)
         .add_systems((
             setup.on_startup(),
