@@ -214,7 +214,11 @@ struct RootMotionRotation {
 }
 
 fn keyboard(
-    keyboard: Res<Input<KeyCode>>,
+    (keyboard, gamepad_buttons, gamepads): (
+        Res<Input<KeyCode>>,
+        Res<Input<GamepadButton>>,
+        Res<Gamepads>,
+    ),
     mut player: Query<&mut AnimationPlayer>,
     mut player_transform: Query<&mut Transform, With<AnimationPlayer>>,
     animations: Option<Res<BruteAnimations>>,
@@ -225,6 +229,11 @@ fn keyboard(
     if keyboard.just_released(KeyCode::Up)
         || keyboard.just_released(KeyCode::Z)
         || keyboard.just_released(KeyCode::W)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_released(GamepadButton::new(gp, GamepadButtonType::DPadUp))
+            })
+            .unwrap_or_default()
     {
         player
             .single_mut()
@@ -236,7 +245,14 @@ fn keyboard(
         *something_pressed = false;
         return;
     }
-    if keyboard.just_released(KeyCode::Down) || keyboard.just_released(KeyCode::S) {
+    if keyboard.just_released(KeyCode::Down)
+        || keyboard.just_released(KeyCode::S)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_released(GamepadButton::new(gp, GamepadButtonType::DPadDown))
+            })
+            .unwrap_or_default()
+    {
         player
             .single_mut()
             .play_with_transition(
@@ -299,6 +315,11 @@ fn keyboard(
     if keyboard.just_pressed(KeyCode::Up)
         || keyboard.just_pressed(KeyCode::Z)
         || keyboard.just_pressed(KeyCode::W)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::DPadUp))
+            })
+            .unwrap_or_default()
     {
         player
             .single_mut()
@@ -314,7 +335,14 @@ fn keyboard(
         return;
     }
 
-    if keyboard.just_pressed(KeyCode::Down) || keyboard.just_pressed(KeyCode::S) {
+    if keyboard.just_pressed(KeyCode::Down)
+        || keyboard.just_pressed(KeyCode::S)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::DPadDown))
+            })
+            .unwrap_or_default()
+    {
         player
             .single_mut()
             .play_with_transition(
@@ -332,6 +360,11 @@ fn keyboard(
     if keyboard.just_pressed(KeyCode::Left)
         || keyboard.just_pressed(KeyCode::A)
         || keyboard.just_pressed(KeyCode::Q)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::DPadLeft))
+            })
+            .unwrap_or_default()
     {
         player.single_mut().play_with_transition(
             animations.as_ref().unwrap().0[Animations::TurnLeft as usize].clone(),
@@ -358,11 +391,18 @@ fn keyboard(
         };
         return;
     }
-    if keyboard.just_pressed(KeyCode::Right) || keyboard.just_pressed(KeyCode::D) {
         player.single_mut().play_with_transition(
             animations.as_ref().unwrap().0[Animations::TurnRight as usize].clone(),
             Duration::from_secs_f32(0.5),
         );
+    if keyboard.just_pressed(KeyCode::Right)
+        || keyboard.just_pressed(KeyCode::D)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::DPadRight))
+            })
+            .unwrap_or_default()
+    {
         let clip = animation_clips
             .get(&animations.as_ref().unwrap().0[Animations::TurnRight as usize])
             .unwrap();
@@ -385,7 +425,13 @@ fn keyboard(
         return;
     }
 
-    if keyboard.just_pressed(KeyCode::Space) {
+    if keyboard.just_pressed(KeyCode::Space)
+        || single_gamepad
+            .map(|gp| {
+                gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::South))
+            })
+            .unwrap_or_default()
+    {
         player.single_mut().play_with_transition(
             animations.as_ref().unwrap().0[Animations::Attack as usize].clone(),
             Duration::from_secs_f32(0.5),
@@ -399,7 +445,11 @@ fn keyboard(
         );
         return;
     }
-    if keyboard.just_pressed(KeyCode::Return) {
+    if keyboard.just_pressed(KeyCode::Return)
+        || single_gamepad
+            .map(|gp| gamepad_buttons.just_pressed(GamepadButton::new(gp, GamepadButtonType::East)))
+            .unwrap_or_default()
+    {
         player.single_mut().play_with_transition(
             animations.as_ref().unwrap().0[Animations::Jump as usize].clone(),
             Duration::from_secs_f32(0.5),
