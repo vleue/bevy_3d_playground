@@ -119,50 +119,6 @@ fn setup(
             .with_rotation(Quat::from_rotation_z(-FRAC_PI_2)),
             ..default()
         });
-        commands.spawn(PbrBundle {
-            mesh: mesh.clone(),
-            material: wall.clone(),
-            transform: Transform::from_xyz(
-                i as f32 * size,
-                1.5 * size,
-                (tiles as f32 + 0.5) * size,
-            )
-            .with_rotation(Quat::from_rotation_x(-FRAC_PI_2)),
-            ..default()
-        });
-        commands.spawn(PbrBundle {
-            mesh: mesh.clone(),
-            material: wall.clone(),
-            transform: Transform::from_xyz(
-                i as f32 * size,
-                1.5 * size,
-                -(tiles as f32 + 0.5) * size,
-            )
-            .with_rotation(Quat::from_rotation_x(FRAC_PI_2)),
-            ..default()
-        });
-        commands.spawn(PbrBundle {
-            mesh: mesh.clone(),
-            material: wall.clone(),
-            transform: Transform::from_xyz(
-                (tiles as f32 + 0.5) * size,
-                1.5 * size,
-                i as f32 * size,
-            )
-            .with_rotation(Quat::from_rotation_z(FRAC_PI_2)),
-            ..default()
-        });
-        commands.spawn(PbrBundle {
-            mesh: mesh.clone(),
-            material: wall.clone(),
-            transform: Transform::from_xyz(
-                -(tiles as f32 + 0.5) * size,
-                1.5 * size,
-                i as f32 * size,
-            )
-            .with_rotation(Quat::from_rotation_z(-FRAC_PI_2)),
-            ..default()
-        });
 
         for j in -tiles..=tiles {
             commands.spawn(PbrBundle {
@@ -183,7 +139,10 @@ fn setup(
         },
         cascade_shadow_config: CascadeShadowConfigBuilder {
             first_cascade_far_bound: size * tiles as f32 * 2.0 / 20.0,
+            #[cfg(not(target_arch = "wasm32"))]
             maximum_distance: size * tiles as f32 * 2.0,
+            #[cfg(target_arch = "wasm32")]
+            maximum_distance: size * tiles as f32 / 4.0,
             ..default()
         }
         .into(),
