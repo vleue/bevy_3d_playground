@@ -391,10 +391,6 @@ fn keyboard(
         };
         return;
     }
-        player.single_mut().play_with_transition(
-            animations.as_ref().unwrap().0[Animations::TurnRight as usize].clone(),
-            Duration::from_secs_f32(0.5),
-        );
     if keyboard.just_pressed(KeyCode::Right)
         || keyboard.just_pressed(KeyCode::D)
         || single_gamepad
@@ -403,6 +399,10 @@ fn keyboard(
             })
             .unwrap_or_default()
     {
+        player.single_mut().play_with_transition(
+            animations.as_ref().unwrap().0[Animations::TurnRight as usize].clone(),
+            Duration::from_secs_f32(0.5),
+        );
         let clip = animation_clips
             .get(&animations.as_ref().unwrap().0[Animations::TurnRight as usize])
             .unwrap();
