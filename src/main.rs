@@ -226,6 +226,7 @@ fn keyboard(
     (time, mut timer, mut rotation): (Res<Time>, Local<Timer>, Local<RootMotionRotation>),
     (mut something_pressed, mut current_direction): (Local<bool>, Local<Direction>),
 ) {
+    let single_gamepad = gamepads.iter().next();
     if keyboard.just_released(KeyCode::Up)
         || keyboard.just_released(KeyCode::Z)
         || keyboard.just_released(KeyCode::W)
